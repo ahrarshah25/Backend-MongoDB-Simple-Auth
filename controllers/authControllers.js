@@ -72,7 +72,14 @@ const loginController = async (req, res) => {
       { expiresIn: "7d" },
     );
 
-    res.status(200).send({
+    res
+    .cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    })
+    .status(200).send({
       success: true,
       message: "Login Successfully",
       user: {
@@ -91,4 +98,21 @@ const loginController = async (req, res) => {
   }
 };
 
-export { signupController, loginController };
+const logoutController = async (req, res) => {
+  try {
+    res.clearCookie("token");
+
+    res.status(200).send({
+      success: true,
+      message: "Logout Successfully",
+    })
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error while logout",
+      error
+    })
+  }
+}
+
+export { signupController, loginController, logoutController };
