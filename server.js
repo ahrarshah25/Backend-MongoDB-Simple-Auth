@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: ['http://localhost:5173', "https://as-todo-application.vercel.app"],
+  origin: ['http://localhost:5173', 'http://localhost:4001', 'http://localhost:4000', "https://as-todo-application.vercel.app"],
   credentials: true
 }));
 app.use(cookieParser());

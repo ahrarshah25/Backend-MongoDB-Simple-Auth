@@ -73,21 +73,22 @@ const loginController = async (req, res) => {
     );
 
     res
-    .cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    })
-    .status(200).send({
-      success: true,
-      message: "Login Successfully",
-      user: {
-        email: user.email,
-        name: user.name,
-      },
-      token,
-    });
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .status(200)
+      .send({
+        success: true,
+        message: "Login Successfully",
+        user: {
+          email: user.email,
+          name: user.name,
+        },
+        token,
+      });
   } catch (error) {
     console.error(error);
     res.status(500).send({
@@ -100,19 +101,25 @@ const loginController = async (req, res) => {
 
 const logoutController = async (req, res) => {
   try {
-    res.clearCookie("token");
+
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
 
     res.status(200).send({
       success: true,
       message: "Logout Successfully",
-    })
+    });
+
   } catch (error) {
     res.status(500).send({
       success: false,
       message: "Error while logout",
       error
-    })
+    });
   }
-}
+};
 
 export { signupController, loginController, logoutController };

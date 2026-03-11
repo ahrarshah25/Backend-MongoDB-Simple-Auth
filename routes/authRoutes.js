@@ -20,7 +20,7 @@ router.get("/check-auth", authCheckMiddleware, async (req, res) => {
   res.status(200).send({
     success: true,
     message: "User authenticated",
-    user,
+    user: user,
   });
 
 });
